@@ -3,4 +3,4 @@
 
 Solar System data visualisation done in HTML/CSS and a bit of Javascript.
 
-See it in action : http://codepen.io/juliangarnier/full/idhuG# Solar-System Model
+See it in action : https://datatuki.net/solar-system/ Solar-System Model
