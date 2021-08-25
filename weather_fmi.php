@@ -19,7 +19,7 @@
 
 ?>
 
-<html lang="en">
+<html lang="fi">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="refresh" content="660"/>
