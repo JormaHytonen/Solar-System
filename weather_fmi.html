@@ -1,0 +1,304 @@
+<html>
+<head>
+    <title>RRD Weather and Windrose Graph | Datatuki Mikkeli Finland</title>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8"/>
+
+    <meta name="description" content="RRD Weather Graph and JpGraph Windrose - Datatuki.fi, StMichel, Finland">
+    <meta name="keywords" content="Weather,RRDtool,Windrose,JpGraph,HTML,CSS,XML,JavaScript">
+    <meta name="author" content="Jorma Hytonen,Datatuki.fi,Datatuki.net">
+
+    <!-- Blue Red Graph Icon -->
+    <link href="favicon.ico" rel="icon" type="image/x-icon" />
+
+    <script src="assets/js/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <link href="assets/css/fmi_style.css" rel="stylesheet" type="text/css" />  
+    <link href="assets/css/img_style.css" rel="stylesheet" type="text/css" />  
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            setTimer();
+        });
+    </script>
+
+    <style>
+        #popup { 
+            display: none; position: fixed; 
+            top: 12%; left: 15%; 
+            width: 70%; height: 70%; 
+            background-color: white; z-index: 10; }
+        #popup iframe { width: 100%; height: 100%; border: 0; }
+        #popupdarkbg { 
+            position: fixed; z-index: 5; left: 0; top: 0; width: 100%; height: 100%; 
+            overflow: hidden; background-color: rgba(0,0,0,.75); display: none; 
+        }
+        #codes {
+            font-size: 10px;
+            color: navy;
+        }
+    </style>
+
+</head>
+
+<!-- 
+    Mitä etsit? Lähdekoodia vai uusia ideoita? Ota rohkeasti yhteyttä. Yhteystiedot sivun lopussa 
+    http://ilmatieteenlaitos.fi/suomen-havainnot?station=101398
+-->
+
+<body>
+
+<script>
+    var IntID = setTimer();    
+        
+    function setTimer() {
+        return setInterval(refreshPage, 60000);
+    }
+
+    function stopTimer() {
+        clearInterval(IntID);
+    }
+
+    function refreshPage() {
+        var date = new Date();
+        var min = date.getMinutes();
+        if( min == 12 || min == 32 || min == 52 ) {
+            IntID = setTimer();
+            // Force reload the page from the server by setting the forceGet parameter to true
+            $('#msg').html("Refreshing");
+            location.reload(true);
+        }
+        else if( min == 10 || min == 30 || min == 50 ) {
+            $('#msg').html("Searching for new data");
+        }
+        else {
+            $('#msg').html("Waiting data");
+        }
+    }
+</script>
+
+<h2 class="page_header">Mikkelin säätiedot [FMISID=101398]</h2>
+
+<div id="upd">
+Grafiikka päivitetään 10min välein - Ladataan palvelimelle 20min välein (10,30,50)<br />
+<a style="color:navy" href="https://ilmatieteenlaitos.fi/suomen-havainnot?station=101398" target="_blank">Mikkelin havainnot</a>
+</div>
+<br />
+<div id="msg">-!-</div>
+
+<table>
+<tr>
+<td colspan="2">
+<div class="graphtitle"><h2 id="Daily_Graphs">Daily Graphs</h2></div>
+</td>
+</tr>
+
+<tr>
+<td><img src="data/temperature-day.png" alt="Temperature" /> </td>
+<td><img src="data/humid-day.png" alt="Humidity" /> </td>
+</tr>
+
+<tr>
+<td>
+<img src="data/windy-day.png" alt="Wind" /> <br />
+Wind&nbsp;<img id="dayImg" src="data/windrose.png" alt="Wind Direction Compass" width="26" height="26">&nbsp;Direction
+<!-- The 1st Modal -->
+<div id="dayModal" class="modal">
+  <span class="closeDay">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+</td>
+<td>
+<img src="data/press-day.png" alt="Pressure" /> <br />
+<div id="none">&nbsp;<div id="some">&nbsp;</div></div>
+</td>
+</tr>
+
+<!-- NEW FMI Data -->
+<tr>
+<td>
+    <div id="none">&nbsp;</div>
+    <img src="data/rainy-day.png" alt="Rainfall" /> 
+</td>
+<td>
+    <!-- Displays WAWA Codes screen -->
+    <div id="main">
+        <a href="" id="codes">Show WaWa Codes</a>
+    </div>
+    <div id="popup"><iframe id="popupiframe"></iframe></div>
+    <div id="popupdarkbg"></div>
+    <img src="data/weather-day.png" alt="Weather Condition" /> 
+</td>
+</tr>
+
+<!-- OLD Weather.com UV-INDEX -->
+<table>
+<center>
+<tr>
+<td><img src="data/RRDWeather_1_uv.png" alt="UV Index" /> </td>
+</tr>
+</center>
+</table>
+
+</table>
+
+<!--  END Daily -->
+
+<table>
+<tr>
+<td colspan="2">
+<div class="graphtitle"><h2 id="Weekly_Graphs">Weekly Graphs</h2></div>
+</td>
+</tr>
+
+<tr>
+<td><img src="data/temperature-week.png" alt="Temperature" /> </td>
+<td><img src="data/humid-week.png" alt="Humidity" /> </td>
+</tr>
+
+<tr>
+<td><img src="data/windy-week.png" alt="Wind" /> <br />
+Wind&nbsp;<img id="weekImg" src="data/windrose.png" alt="Wind Direction Compass" width="26" height="26">&nbsp;Direction
+<!-- The 2nd Modal -->
+<div id="weekModal" class="modal">
+  <span class="closeWeek">&times;</span>
+  <img class="modal-content" id="img02">
+  <div id="caption"></div>
+</div>
+</td>
+<td>
+<img src="data/press-week.png" alt="Pressure" /> <br />
+<div id="none">&nbsp;<div id="some">&nbsp;</div></div>
+</td>
+</tr>
+
+<!-- NEW FMI Data -->
+<tr>
+<td><img src="data/rainy-week.png" alt="Rainfall" /> </td>
+<td><img src="data/weather-week.png" alt="Weather Condition" /> </td>
+</tr>
+
+<!-- OLD Weather.com UV-INDEX -->
+<table>
+<center>
+<tr>
+<td><img src="data/RRDWeather_2_uv.png" alt="UV Index" /> </td>
+</tr>
+</center>
+</table>
+
+</table>
+
+<!-- END Weekly  -->
+
+<table>
+<tr>
+<td colspan="2">
+<div class="graphtitle"><h2 id="Monthly_Graphs">Monthly Graphs</h2></div>
+</td>
+</tr>
+
+<tr>
+<td><img src="data/temperature-month.png" alt="Temperature" /> </td>
+<td><img src="data/humid-month.png" alt="Humidity" /> </td>
+</tr>
+
+<tr>
+<td><img src="data/windy-month.png" alt="Wind" /> </td>
+<td><img src="data/press-month.png" alt="Pressure" /> </td>
+</tr>
+
+<!-- NEW FMI Data -->
+<tr>
+<td><img src="data/rainy-month.png" alt="Rainfall" /> </td>
+<td><img src="data/weather-month.png" alt="Weather Condition" /> </td>
+</tr>
+
+<!-- OLD Weather.com UV-INDEX -->
+<table>
+<center>
+<tr>
+<td><img src="data/RRDWeather_3_uv.png" alt="UV Index" /> </td>
+</tr>
+</center>
+</table>
+
+<!--  END MOnthly -->
+
+</table>
+
+<br /><br />
+<table class="page_footer" border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr><td align="center">
+    Copyright&copy;&nbsp;Ilmatieteen laitos&nbsp;
+    <a style="color:maroon" href="https://ilmatieteenlaitos.fi/avoin-data" target="_blank">FMI Open Data</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a style="color:maroon" href="http://datatuki.net" target="_blank">Datatuki.net</a> &nbsp;|&nbsp;
+    RRDtool 1.5.5 &copy;&nbsp;<a style="color: maroon" href="https://oss.oetiker.ch/rrdtool/doc/rrdgraph.en.html" target="_blank">Tobi Oetker </a>&nbsp;&nbsp;Powered by&nbsp;<a style="color:maroon" href="https://www.inmotionhosting.com/">InMotion Hosting</a>
+</td></tr>
+</table>
+
+<script>
+    // Get the 1st modal
+    var modal = document.getElementById('dayModal');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById('dayImg');
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    img.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+
+    // Get the 2nd modal
+    var modal = document.getElementById('weekModal');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById('weekImg');
+    var modalImg = document.getElementById("img02");
+    var captionText = document.getElementById("caption");
+    img.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    
+    // Get the <span> element that closes the modal
+    var daySpan = document.getElementsByClassName("closeDay")[0];
+    var weekSpan = document.getElementsByClassName("closeWeek")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    daySpan.onclick = function() { 
+        modal.style.display = "none";
+    }
+    weekSpan.onclick = function() { 
+        modal.style.display = "none";
+    }
+    
+    // Dislpay WAWA Codes screen
+    document.getElementById("codes").onclick = function(e) {
+    e.preventDefault();
+    document.getElementById("popupdarkbg").style.display = "block";
+    document.getElementById("popup").style.display = "block";
+    document.getElementById('popupiframe').src = "wawacodes.html";
+    document.getElementById('popupdarkbg').onclick = function() {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("popupdarkbg").style.display = "none";
+    };
+    return false;
+    }
+
+    window.onkeydown = function(e) {
+        if (e.keyCode == 27) {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("popupdarkbg").style.display = "none";
+        e.preventDefault();
+        return;
+        }
+    }
+
+</script>
+
+</body>
+</html>

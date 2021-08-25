@@ -1,0 +1,8 @@
+# ALL Data
+URL="https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::observations::weather::timevaluepair&fmisid=101421&timestep=10&"
+
+# wget -t 2 -O ./mikkeli-all.xml ${URL}
+if [[ $(wget ${URL} -O-) ]] 2>/dev/null
+    then wget -t 2 -O /data/local/fmidata/varkaus-all.xml ${URL}
+    else echo "https://data.fmi.fi not found!"
+fi

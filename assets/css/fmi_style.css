@@ -1,0 +1,102 @@
+#weatherData
+{
+    background-image: url("../images/crystal.jpg");
+}
+
+a {
+    color: #7D7D7D;
+    text-decoration: none;
+}
+a:hover {
+    color: #000080;
+    text-decoration: none;
+}
+
+#backBtn {
+display: none;
+position: fixed;
+bottom: 20px;
+right: 30px;
+z-index: 99;
+font-size: 18px;
+border: none;
+outline: none;
+background-color: navy;
+color: white;
+cursor: pointer;
+padding: 15px;
+border-radius: 4px;
+}
+
+#backBtn:hover {
+background-color: #555;
+}
+#msg
+{
+    font-size: 12pt;
+    color: maroon;
+}
+.msg
+{
+    font-size: 12pt;
+    color: red;
+}
+
+#info
+{
+    font-size: 10pt;
+    color: navy;
+}
+#upd
+{
+    font-size: 12pt;
+    color: #737367;
+}
+#dte
+{
+    font-size: 12pt;
+    color: #444444;
+}
+#D1
+{
+    display: inline-block;
+    text-align: left;
+    border: 1px solid gray;
+    border-radius: 12px;
+    width: 98.5%;
+    /* top right bottom left */
+    padding: 12px 4px 12px 12px;
+}
+#F1 a {
+    color: #cccc00;
+    text-decoration: none;
+}
+#F1 a:hover {
+    color: #dddddd;
+    text-decoration: none;
+}
+
+.graphtitle
+{
+    background-color: #ddd;
+    color: #555;
+    width: 100%;
+    font-size: 18px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 24px;
+}
+
+div.desc {
+    margin-top: 2px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+div.desc a {
+    color: #7D7D7D;
+    text-decoration: none;
+}
+div.desc a:hover {
+    color: #000080;
+    text-decoration: none;
+}
